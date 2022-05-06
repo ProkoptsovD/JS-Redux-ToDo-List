@@ -9,9 +9,12 @@ import {
   ON_REMOVE,
   ON_DONE,
   ON_UNDONE,
+  SET_STORE_TO_LOCAL_STORAGE,
+  GET_STORE_FROM_LOCAL_STORAGE,
 } from './types';
 
 export function rootReducer(state, action) {
+  console.log(action.type);
   switch (action.type) {
     case ADD_TASK:
       const newTaskList = [...state.tasksList];
@@ -130,9 +133,29 @@ export function rootReducer(state, action) {
 
       return updateProgressBar(action);
 
+    case SET_STORE_TO_LOCAL_STORAGE:
+      const currentStoreStateJSON = JSON.stringify(state);
+      console.log(currentStoreStateJSON);
+
+      localStorage.setItem(state.TASKS_LOCAL_STORE_KEY, currentStoreStateJSON);
+
+      return {
+        ...state,
+      };
+    case GET_STORE_FROM_LOCAL_STORAGE:
+      const currentStoreStateRaw = localStorage.getItem(state.TASKS_LOCAL_STORE_KEY);
+
+      if (!currentStoreStateRaw) return { ...state };
+
+      const currentStoreStateParsed = JSON.parse(currentStoreStateRaw);
+
+      return {
+        ...currentStoreStateParsed,
+      };
+
     default:
       return {
-        doneTotal: 0,
+        TASKS_LOCAL_STORE_KEY: 'current-store-state',
         tasksTotal: 0,
         noTasksAdded: true,
         lastUpdate: '',

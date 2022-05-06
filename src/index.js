@@ -14,12 +14,30 @@ import {
   onRemove,
   onDone,
   onUndone,
+  getStoreFromLocalStorage,
+  setStoreToLocalStorage,
 } from './redux/actions';
 
 const store = configureStore({
   reducer: rootReducer,
 });
 
+window.store = store;
+
+window.addEventListener('load', () => {
+  store.dispatch(getStoreFromLocalStorage());
+  const {
+    tasksList,
+    tasksTotal,
+    lastUpdate,
+    progressBar: { completed, currentProgress },
+  } = store.getState();
+
+  insertTasktoHTML(refs.tasksList, renderTask(tasksList));
+  refs.lastUpdate.textContent = tasksTotal ? `last update: ${lastUpdate}` : '';
+  refs.taskCounter.textContent = tasksTotal ? `${completed} of ${tasksTotal}` : 'no tasks added';
+  refs.progressBar.style.strokeDashoffset = currentProgress;
+});
 refs.addTaskform.addEventListener('submit', onSubmitFormClick);
 refs.tasksList.addEventListener('click', onTaskCardClick);
 
@@ -51,6 +69,7 @@ function onSubmitFormClick(e) {
   store.dispatch(addTask(newTask));
   store.dispatch(initProgressBar());
   store.dispatch(updateProgressBar(onAdd));
+  store.dispatch(setStoreToLocalStorage());
 
   e.target.reset();
 }
@@ -65,12 +84,17 @@ function onTaskCardClick(e) {
 
     store.dispatch(removeTask(id));
     store.dispatch(updateProgressBar(onRemove));
+    store.dispatch(setStoreToLocalStorage());
   }
   if (isCheckBoxClicked) {
     const taskID = e.target.parentElement.parentElement.dataset.id;
 
     isChecked
-      ? store.dispatch(markTaskAsDone(taskID)) && store.dispatch(updateProgressBar(onDone))
-      : store.dispatch(markTaskAsUnDone(taskID)) && store.dispatch(updateProgressBar(onUndone));
+      ? store.dispatch(markTaskAsDone(taskID)) &&
+        store.dispatch(updateProgressBar(onDone)) &&
+        store.dispatch(setStoreToLocalStorage())
+      : store.dispatch(markTaskAsUnDone(taskID)) &&
+        store.dispatch(updateProgressBar(onUndone)) &&
+        store.dispatch(setStoreToLocalStorage());
   }
 }

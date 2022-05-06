@@ -9,6 +9,8 @@ import {
   ON_REMOVE,
   ON_DONE,
   ON_UNDONE,
+  SET_STORE_TO_LOCAL_STORAGE,
+  GET_STORE_FROM_LOCAL_STORAGE,
 } from './types';
 
 function addTask(task = {}) {
@@ -42,6 +44,17 @@ function onUndone() {
   return ON_UNDONE;
 }
 
+function setStoreToLocalStorage() {
+  return {
+    type: SET_STORE_TO_LOCAL_STORAGE,
+  };
+}
+function getStoreFromLocalStorage() {
+  return {
+    type: GET_STORE_FROM_LOCAL_STORAGE,
+  };
+}
+
 export {
   addTask,
   removeTask,
@@ -53,4 +66,6 @@ export {
   onRemove,
   onDone,
   onUndone,
+  setStoreToLocalStorage,
+  getStoreFromLocalStorage,
 };
