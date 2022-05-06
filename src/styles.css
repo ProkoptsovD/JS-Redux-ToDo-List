@@ -1,0 +1,370 @@
+/* extra CSS. Borrowed from https: //codepen.io/fleeting/pen/WNbVPjo */
+
+body {
+    margin: 40px 0;
+    background: #384259;
+}
+
+h1,
+h2,
+h3 {
+    font-family: 'Libre Baskerville', serif;
+}
+
+h1 {
+    font-size: 40px;
+    color: #fff;
+    text-align: center;
+    line-height: 0.8;
+}
+
+
+.list {
+    max-width: 700px;
+    margin: 0 auto;
+    color: #384259;
+    background: #fff;
+    overflow: hidden;
+
+    padding: 25px;
+}
+
+.header-grid {
+    position: relative;
+
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    grid-gap: 10px;
+}
+
+h2 {
+    font-size: 34px;
+    line-height: 1;
+}
+
+h2 span {
+    font-size: 15px;
+    color: #7ac7c4;
+}
+
+.tasks {
+    list-style: none;
+    margin: 15px 0 0;
+    padding: 0;
+}
+
+.task {
+    position: relative;
+    display: flex;
+    align-items: center;
+
+    padding: 20px 20px 20px 65px;
+}
+
+.task:nth-child(odd) {
+    background: #f2f2f6;
+}
+
+.task:hover {
+    background: #c4edde;
+}
+
+.task-wrapper-inner {
+    display: flex;
+}
+
+.task span {
+    position: absolute;
+    top: 31px;
+    left: 25px;
+
+    display: block;
+    
+    width: 24px;
+    height: 24px;
+    
+    transform: translateY(-50%);
+}
+
+p.meta {
+    margin: 0;
+    padding: 25px 25px 0;
+    font-size: 13px;
+    color: #7ac7c4;
+    text-align: right;
+}
+
+.tasks input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 24px;
+    height: 24px;
+    border: 2px solid #384259;
+    border-radius: 50%;
+}
+
+.tasks label {
+    width: 24px;
+    height: 24px;
+    background: none;
+    border-radius: 50%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    -webkit-filter: url("#goo");
+    filter: url("#goo");
+    transform: trasnlate3d(0, 0, 0);
+    pointer-events: none;
+}
+
+.task span svg {
+    position: absolute;
+    top: 5px;
+    left: 4px;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.tasks span svg path {
+    stroke: #fff;
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 19;
+    stroke-dashoffset: 19;
+    transition: stroke-dashoffset 0.3s ease;
+    transition-delay: 0.2s;
+}
+
+.tasks input:checked+label {
+    background: #f73859;
+    box-shadow: 0 -36px 0 -10px transparent,
+    32px -16px 0 -10px transparent,
+    32px 16px 0 -10px transparent,
+    0 36px 0 -10px transparent,
+    -32px 16px 0 -10px transparent,
+    -32px -16px 0 -10px transparent;
+}
+
+.tasks input:checked+label+svg path {
+    stroke-dashoffset: 0;
+}
+
+input[type="checkbox"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    -webkit-tap-highlight-color: transparent;
+    cursor: pointer;
+    margin: 0;
+}
+
+input[type="checkbox"]:focus {
+    outline: 0;
+}
+
+@keyframes splash {
+    40% {
+        background: #f73859;
+        box-shadow: 0 -18px 0 -8px #f73859, 16px -8px 0 -8px #f73859, 16px 8px 0 -8px #f73859, 0 18px 0 -8px #f73859, -16px 8px 0 -8px #f73859, -16px -8px 0 -8px #f73859;
+    }
+
+    100% {
+        background: #f73859;
+        box-shadow: 0 -36px 0 -10px transparent, 32px -16px 0 -10px transparent, 32px 16px 0 -10px transparent, 0 36px 0 -10px transparent, -32px 16px 0 -10px transparent, -32px -16px 0 -10px transparent;
+    }
+}
+
+/* my CSS */
+/* ==================== task body ================= */
+.task-title {
+    margin: 0 20px 0 0;
+}
+
+.task-body {
+    margin: 0;
+    padding-top: 3px;
+    font-size: 0.85rem;
+}
+
+/* =================== add task btn ================== */
+.add-task-wrapper {
+    width: 150px;
+    height: 210px;
+
+    display: flex;
+    flex-direction: column;
+
+    padding-top: 10px;
+}
+
+.add-task-wrapper h2 {
+    margin: 10px 0 0;
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+.add-task-btn {
+    position: absolute;
+    top: 61px;
+    left: 51px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    font: inherit;
+    border: none;
+    border-radius: 50%;
+}
+
+.add-task-btn svg {
+    width: 75%;
+    height: 75%;
+
+    fill: limegreen;
+}
+
+.add-task-btn:hover {
+    cursor: pointer;
+}
+
+.add-task-btn:active {
+    box-shadow: inset 1px 1px 4px #ccc;
+}
+
+/* ============== circle progress bar ================*/
+@keyframes growProgressBar {
+
+    0%,
+    33% {
+        --pgPercentage: 0;
+    }
+
+    100% {
+        --pgPercentage: var(--value);
+    }
+}
+
+
+div[role="progressbar"] {
+    --size: 9.5rem;
+    --fg: #369;
+    --bg: #def;
+    --pgPercentage: var(--value);
+    animation: growProgressBar 3s 1 forwards;
+    width: var(--size);
+    height: var(--size);
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background:
+        radial-gradient(closest-side, white 80%, transparent 0 99.9%, white 0),
+        conic-gradient(var(--fg) var(--pgPercentage), var(--bg) 0);
+    color: var(--fg);
+}
+
+.progress-bar {
+    width: 150px;
+    height: 150px;
+
+    transform: rotateX(180deg);
+}
+
+.progress-bar-current {
+    stroke: #f73859;
+    stroke-width: 8;
+    stroke-dasharray: 288.5;
+    stroke-dashoffset: -288.5;
+    stroke-linecap: round;
+    fill: none;
+    transform-origin: 50px 50px;
+
+    transition: all 250ms ease-in;
+}
+
+
+.progress-bar-mask-outer {
+    fill: transparent;
+    stroke: #f738581a;
+}
+
+.progress-bar-mask-inner {
+    fill: transparent;
+    stroke: #f738591a;
+}
+
+/* ==================== add task ======================== */
+.add-task-form label {
+    display: block;
+}
+
+.add-task-form label:nth-of-type(2) {
+    margin-top: 10px;
+}
+
+.task-name, .task-details {
+    display: block;
+    width: 95%;
+
+    padding: 10px;
+    margin-top: 5px;
+
+    border: none;
+    background-color: #f2f2f6;
+}
+
+
+.task-name:focus-within,
+.task-details:focus-within {
+    outline: 1px solid #f738581a;
+}
+
+.task-details {
+    resize: none;
+}
+
+/* ==================== delete task button ================== */
+.delete-task {
+    margin: 0 0 0 auto;
+    padding: 0;
+
+    border: none;
+    background-color: transparent;
+}
+
+.delete-task:hover,
+.delete-task:focus {
+    cursor: pointer;
+}
+
+.delete-task:active {
+    transform: scale(0.9);
+}
+
+.delete-task svg {
+    width: 22px;
+    height: 22px;
+
+    fill: #369;
+
+    pointer-events: none;
+}
+
+/* task is done */
+.is-done {
+    color: #32cd32;
+}
+
+.task.is-done::before {
+    position: absolute;
+    content: '';
+    top: 31px;
+    left: 48px;
+    width: 100%;
+    height: 3px;
+    background: #f73859;
+    background: linear-gradient(90deg, rgba(247, 56, 89, 1) 65%, rgba(247, 56, 89, 0) 80%);
+}
