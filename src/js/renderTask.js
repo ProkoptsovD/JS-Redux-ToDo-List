@@ -1,7 +1,7 @@
 export const renderTask = arrOFTasks => {
   return arrOFTasks.map(({ isDone, id, taskName, taskDetails }) => {
     return `
-            <li class="task${isDone ? ' is-done' : ''}" data-id="${id}">
+            <li class="task ${isDone ? 'is-done' : ''}" data-id="${id}">
                 <span>
                     <input type="checkbox" data-js="checkbox" ${isDone ? 'checked' : ''}/>
                     <label></label>

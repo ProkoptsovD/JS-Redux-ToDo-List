@@ -21,6 +21,7 @@ import {
 const store = configureStore({
   reducer: rootReducer,
 });
+store.dispatch(initProgressBar());
 
 window.addEventListener('load', onWindowLoadRenderPage);
 refs.addTaskform.addEventListener('submit', onSubmitFormClick);
@@ -37,10 +38,7 @@ function onSubmitFormClick(e) {
     taskDetails,
   };
 
-  store.subscribe(renderPage);
-
   store.dispatch(addTask(newTask));
-  store.dispatch(initProgressBar());
   store.dispatch(updateProgressBar(onAdd));
   store.dispatch(setStoreToLocalStorage());
 
@@ -69,12 +67,22 @@ function onTaskCardClick(e) {
       : store.dispatch(markTaskAsUnDone(taskID)) &&
         store.dispatch(updateProgressBar(onUndone)) &&
         store.dispatch(setStoreToLocalStorage());
+    // if (isChecked) {
+    //   store.dispatch(markTaskAsDone(taskID));
+    //   store.dispatch(updateProgressBar(onDone));
+    //   store.dispatch(setStoreToLocalStorage());
+    // } else {
+    //   store.dispatch(markTaskAsUnDone(taskID));
+    //   store.dispatch(updateProgressBar(onUndone));
+    //   store.dispatch(setStoreToLocalStorage());
+    // }
   }
 }
 
 function onWindowLoadRenderPage() {
   store.dispatch(getStoreFromLocalStorage());
   renderPage();
+  store.subscribe(renderPage);
 }
 
 function renderPage() {

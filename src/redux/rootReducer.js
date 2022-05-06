@@ -135,8 +135,6 @@ export function rootReducer(state, action) {
 
     case SET_STORE_TO_LOCAL_STORAGE:
       const currentStoreStateJSON = JSON.stringify(state);
-      console.log(currentStoreStateJSON);
-
       localStorage.setItem(state.TASKS_LOCAL_STORE_KEY, currentStoreStateJSON);
 
       return {
