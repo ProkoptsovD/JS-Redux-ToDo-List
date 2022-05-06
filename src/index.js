@@ -22,22 +22,7 @@ const store = configureStore({
   reducer: rootReducer,
 });
 
-window.store = store;
-
-window.addEventListener('load', () => {
-  store.dispatch(getStoreFromLocalStorage());
-  const {
-    tasksList,
-    tasksTotal,
-    lastUpdate,
-    progressBar: { completed, currentProgress },
-  } = store.getState();
-
-  insertTasktoHTML(refs.tasksList, renderTask(tasksList));
-  refs.lastUpdate.textContent = tasksTotal ? `last update: ${lastUpdate}` : '';
-  refs.taskCounter.textContent = tasksTotal ? `${completed} of ${tasksTotal}` : 'no tasks added';
-  refs.progressBar.style.strokeDashoffset = currentProgress;
-});
+window.addEventListener('load', onWindowLoadRenderPage);
 refs.addTaskform.addEventListener('submit', onSubmitFormClick);
 refs.tasksList.addEventListener('click', onTaskCardClick);
 
@@ -52,19 +37,7 @@ function onSubmitFormClick(e) {
     taskDetails,
   };
 
-  store.subscribe(() => {
-    const {
-      tasksList,
-      tasksTotal,
-      lastUpdate,
-      progressBar: { completed, currentProgress },
-    } = store.getState();
-
-    insertTasktoHTML(refs.tasksList, renderTask(tasksList));
-    refs.lastUpdate.textContent = tasksTotal ? `last update: ${lastUpdate}` : '';
-    refs.taskCounter.textContent = tasksTotal ? `${completed} of ${tasksTotal}` : 'no tasks added';
-    refs.progressBar.style.strokeDashoffset = currentProgress;
-  });
+  store.subscribe(renderPage);
 
   store.dispatch(addTask(newTask));
   store.dispatch(initProgressBar());
@@ -97,4 +70,23 @@ function onTaskCardClick(e) {
         store.dispatch(updateProgressBar(onUndone)) &&
         store.dispatch(setStoreToLocalStorage());
   }
+}
+
+function onWindowLoadRenderPage() {
+  store.dispatch(getStoreFromLocalStorage());
+  renderPage();
+}
+
+function renderPage() {
+  const {
+    tasksList,
+    tasksTotal,
+    lastUpdate,
+    progressBar: { completed, currentProgress },
+  } = store.getState();
+
+  insertTasktoHTML(refs.tasksList, renderTask(tasksList));
+  refs.lastUpdate.textContent = tasksTotal ? `last update: ${lastUpdate}` : '';
+  refs.taskCounter.textContent = tasksTotal ? `${completed} of ${tasksTotal}` : 'no tasks added';
+  refs.progressBar.style.strokeDashoffset = currentProgress;
 }
